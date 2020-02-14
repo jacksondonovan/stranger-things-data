@@ -11,7 +11,7 @@ class ShowDetails {
 		var show_id = series_data.data.id
 		var episodes = await axios.get(`${series_data.data._links.self.href}/episodes`)
 
-		episodes.data.pop()
+		episodes.data.pop() // season 4 episode 1 has not been released and contains incomplete data.
 
 		let episodes_details = this.aggregateEpisodesData(episodes.data)
 
@@ -48,7 +48,9 @@ class ShowDetails {
 
 	removePrefix(title) {
 		let title_split = title.split(':')
-		return title_split[1]
+		let subtitle = title_split[1].split('')
+		subtitle.shift() // Remove the ' ' that would immediately follow the colon.
+		return subtitle.join('')
 	}
 
 	firstSentenceOf(summary) {
